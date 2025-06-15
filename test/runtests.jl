@@ -80,7 +80,7 @@ const CLI_AVAILABLE = check_cli_available_for_tests()
     if CLI_AVAILABLE
         @testset "Basic Query (requires CLI)" begin
             # Test basic query functionality
-            result = query("What is 2 + 2?")
+            result = query(prompt="What is 2 + 2?")
             @test !isempty(result)
             @test any(m -> m isa AssistantMessage, result)
         end
@@ -91,7 +91,7 @@ const CLI_AVAILABLE = check_cli_available_for_tests()
                 system_prompt="You are a helpful assistant",
                 max_turns=1
             )
-            result = query("Tell me a joke", options=options)
+            result = query(prompt="Tell me a joke", options=options)
             @test !isempty(result)
             @test any(m -> m isa AssistantMessage, result)
         end
@@ -108,7 +108,7 @@ const CLI_AVAILABLE = check_cli_available_for_tests()
             write(test_file, "Hello, World!")
 
             try
-                result = query("What is in the test_file.txt?", options=options)
+                result = query(prompt="What is in the test_file.txt?", options=options)
                 @test !isempty(result)
             finally
                 # Remove temporary file
@@ -119,7 +119,7 @@ const CLI_AVAILABLE = check_cli_available_for_tests()
         end
     else
         @testset "CLI Not Available" begin
-            @test_throws CLINotFoundError query("Hello")
+            @test_throws CLINotFoundError query(prompt="Hello")
         end
     end
 end

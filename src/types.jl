@@ -4,6 +4,7 @@ Type definitions for Claude Code SDK
 
 # Permission modes
 const PermissionMode = Union{String, Nothing}
+const PERMISSION_MODES = ["default", "acceptEdits", "bypassPermissions"]
 
 # MCP Server config
 struct McpServerConfig
@@ -90,11 +91,14 @@ struct ToolResultBlock
     end
 end
 
+# Content block union type
+const ContentBlock = Union{TextBlock, ToolUseBlock, ToolResultBlock}
+
 """
 Message from assistant
 """
 struct AssistantMessage <: Message
-    content::Vector{Union{TextBlock, ToolUseBlock, ToolResultBlock}}
+    content::Vector{ContentBlock}
 end
 
 """
