@@ -1,5 +1,11 @@
 # ClaudeCodeSDK.jl
 
+## Warning
+
+This implementation is UNOFFICIAL!!!
+
+## Description
+
 A Julia port of the Claude Code SDK, providing a native Julia interface for interacting with Claude Code CLI. This implementation closely mirrors the Python SDK architecture while following Julia conventions and patterns.
 
 **Status**: Core functionality complete and working. Basic queries and options handling fully functional with the Claude CLI.
