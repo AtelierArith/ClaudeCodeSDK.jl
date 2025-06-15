@@ -368,9 +368,8 @@ Always test your error handling code:
 
 ```julia
 @testset "Error Scenarios" begin
-    # Test with invalid options
-    invalid_options = ClaudeCodeOptions(max_turns=-1)  # Invalid
-    @test_throws ProcessError query("test", options=invalid_options)
+    # Test with invalid configuration
+    @test_throws ProcessError query("test with bad config")
     
     # Test graceful degradation
     response = get_claude_response("test", fallback="fallback")
@@ -383,8 +382,10 @@ end
 ### Enable Verbose Output
 
 ```julia
-# If CLI supports verbose mode
-options = ClaudeCodeOptions(suppress_client_logs=false)
+# Configure options for debugging
+options = ClaudeCodeOptions(
+    allowed_tools=["Read", "Write", "Bash"]
+)
 result = query("Debug query", options=options)
 ```
 

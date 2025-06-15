@@ -28,7 +28,8 @@ end
 Comprehensive type definitions that mirror the Python SDK:
 
 #### Configuration Types
-- `ClaudeCodeOptions` - Complete configuration with all 14 fields
+- `ClaudeCodeOptions` - Complete configuration with 14 fields including MCP support
+- `McpServerConfig` - MCP server configuration structure
 - Support for all Claude CLI options and parameters
 
 #### Message Types
@@ -153,9 +154,20 @@ Full Julia type annotations with strict type checking:
 
 ```julia
 struct ClaudeCodeOptions
+    allowed_tools::Vector{String}
+    max_thinking_tokens::Int
     system_prompt::Union{String, Nothing}
+    append_system_prompt::Union{String, Nothing}
+    mcp_tools::Vector{String}
+    mcp_servers::Dict{String, McpServerConfig}
+    permission_mode::Union{String, Nothing}
+    continue_conversation::Bool
+    resume::Union{String, Nothing}
     max_turns::Union{Int, Nothing}
-    # ... all 14 fields with proper types
+    disallowed_tools::Vector{String}
+    model::Union{String, Nothing}
+    permission_prompt_tool_name::Union{String, Nothing}
+    cwd::Union{String, Nothing}
 end
 ```
 
@@ -220,6 +232,16 @@ function build_cli_args(options::ClaudeCodeOptions)
     # Add configured options
     if options.system_prompt !== nothing
         push!(args, "--system-prompt", options.system_prompt)
+    end
+    
+    if options.max_turns !== nothing
+        push!(args, "--max-turns", string(options.max_turns))
+    end
+    
+    if !isempty(options.allowed_tools)
+        for tool in options.allowed_tools
+            push!(args, "--allowed-tools", tool)
+        end
     end
     
     # ... handle all other options

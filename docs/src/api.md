@@ -97,20 +97,20 @@ result = query("Tell me a joke", options=options)
 
 Configuration struct with all available options:
 
+- `allowed_tools::Vector{String}` - Allowed tools list (default: `String[]`)
+- `max_thinking_tokens::Int` - Maximum thinking tokens (default: `8000`)
 - `system_prompt::Union{String, Nothing}` - System prompt for Claude (default: `nothing`)
-- `max_turns::Union{Int, Nothing}` - Maximum conversation turns (default: `nothing`)
-- `cwd::Union{String, Nothing}` - Working directory (default: `nothing`)
-- `allowed_tools::Union{Vector{String}, Nothing}` - Allowed tools list (default: `nothing`)
+- `append_system_prompt::Union{String, Nothing}` - Additional system prompt to append (default: `nothing`)
+- `mcp_tools::Vector{String}` - MCP tools to enable (default: `String[]`)
+- `mcp_servers::Dict{String, McpServerConfig}` - MCP server configurations (default: `Dict{String, McpServerConfig}()`)
 - `permission_mode::Union{String, Nothing}` - Permission mode ("acceptEdits", etc.) (default: `nothing`)
+- `continue_conversation::Bool` - Continue previous conversation (default: `false`)
+- `resume::Union{String, Nothing}` - Resume from session ID (default: `nothing`)
+- `max_turns::Union{Int, Nothing}` - Maximum conversation turns (default: `nothing`)
+- `disallowed_tools::Vector{String}` - Tools to disallow (default: `String[]`)
 - `model::Union{String, Nothing}` - Claude model to use (default: `nothing`)
-- `enable_mcp::Union{Bool, Nothing}` - Enable MCP servers (default: `nothing`)
-- `mcp_server_configs::Union{Dict, Nothing}` - MCP server configurations (default: `nothing`)
-- `suppress_client_logs::Union{Bool, Nothing}` - Suppress client logs (default: `nothing`)
-- `custom_instructions::Union{String, Nothing}` - Custom instructions (default: `nothing`)
-- `memory_path::Union{String, Nothing}` - Memory file path (default: `nothing`)
-- `memory_disabled::Union{Bool, Nothing}` - Disable memory (default: `nothing`)
-- `test_mode::Union{Bool, Nothing}` - Enable test mode (default: `nothing`)
-- `disable_tools::Union{Vector{String}, Nothing}` - Tools to disable (default: `nothing`)
+- `permission_prompt_tool_name::Union{String, Nothing}` - Permission prompt tool name (default: `nothing`)
+- `cwd::Union{String, Nothing}` - Working directory (default: `nothing`)
 
 ## Message Types
 
@@ -133,14 +133,24 @@ Represents a message from the user.
 Represents a system message.
 
 **Fields:**
-- `content::String` - System message content
+- `subtype::String` - System message subtype
+- `data::Dict{String, Any}` - System message data
 
 ### ResultMessage
 
 Represents a result message from tool execution or other operations.
 
 **Fields:**
-- `content::String` - Result content
+- `subtype::String` - Result message subtype
+- `cost_usd::Float64` - Cost in USD
+- `duration_ms::Int` - Duration in milliseconds
+- `duration_api_ms::Int` - API duration in milliseconds
+- `is_error::Bool` - Whether this is an error result
+- `num_turns::Int` - Number of conversation turns
+- `session_id::String` - Session identifier
+- `total_cost_usd::Float64` - Total cost in USD
+- `usage::Union{Dict{String, Any}, Nothing}` - Usage statistics (default: `nothing`)
+- `result::Union{String, Nothing}` - Result content (default: `nothing`)
 
 ## Content Block Types
 
@@ -156,15 +166,18 @@ Contains text content from Claude's response.
 Represents Claude's request to use a tool.
 
 **Fields:**
-- `tool::String` - Tool name
-- `args::Dict{String, Any}` - Tool arguments
+- `id::String` - Tool use identifier
+- `name::String` - Tool name
+- `input::Dict{String, Any}` - Tool input parameters
 
 ### ToolResultBlock
 
 Contains the result of a tool execution.
 
 **Fields:**
-- `result::String` - Tool execution result
+- `tool_use_id::String` - ID of the tool use this result corresponds to
+- `content::Union{String, Vector{Dict{String, Any}}, Nothing}` - Tool execution result content (default: `nothing`)
+- `is_error::Union{Bool, Nothing}` - Whether the tool execution resulted in an error (default: `nothing`)
 
 ## Tool Types
 
@@ -173,14 +186,14 @@ Contains the result of a tool execution.
 Tool for reading files.
 
 **Fields:**
-- `file_path::String` - Path to file to read
+- `path::String` - Path to file to read
 
 ### WriteTool
 
 Tool for writing files.
 
 **Fields:**
-- `file_path::String` - Path to file to write
+- `path::String` - Path to file to write
 - `content::String` - Content to write
 
 ### BashTool
@@ -189,3 +202,22 @@ Tool for executing bash commands.
 
 **Fields:**
 - `command::String` - Command to execute
+
+### ToolResult
+
+Result of tool execution.
+
+**Fields:**
+- `success::Bool` - Whether the tool execution was successful
+- `output::Union{String, Nothing}` - Tool output (default: `nothing`)
+- `error::Union{String, Nothing}` - Error message if execution failed (default: `nothing`)
+
+## MCP Configuration
+
+### McpServerConfig
+
+Configuration for MCP (Model Context Protocol) servers.
+
+**Fields:**
+- `transport::Vector{String}` - Transport configuration (e.g., command and arguments)
+- `env::Union{Dict{String, Any}, Nothing}` - Environment variables (default: `nothing`)
