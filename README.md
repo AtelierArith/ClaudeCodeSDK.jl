@@ -1,5 +1,7 @@
 # ClaudeCodeSDK.jl
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/AtelierArith/ClaudeCodeSDK.jl)
+
 ## Warning
 
 This implementation is UNOFFICIAL!!!
