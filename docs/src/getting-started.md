@@ -31,7 +31,7 @@ julia --project -e "using Pkg; Pkg.instantiate()"
 using ClaudeCodeSDK
 
 # Basic query - returns Vector{Message}
-result = query("Hello Claude")
+result = query(prompt="Hello Claude")
 for message in result
     if message isa AssistantMessage
         for block in message.content
@@ -55,7 +55,7 @@ options = ClaudeCodeOptions(
 )
 
 # Query with options
-result = query("Tell me a joke", options=options)
+result = query(prompt="Tell me a joke", options=options)
 for message in result
     if message isa AssistantMessage
         for block in message.content
@@ -88,7 +88,7 @@ options = ClaudeCodeOptions(
     cwd="/path/to/project"
 )
 
-result = query("Help me with my project", options=options)
+result = query(prompt="Help me with my project", options=options)
 ```
 
 ## Running Tests
@@ -123,7 +123,7 @@ Always wrap your queries in try-catch blocks for robust error handling:
 using ClaudeCodeSDK
 
 try
-    result = query("Hello")
+    result = query(prompt="Hello")
     for message in result
         println(message)
     end

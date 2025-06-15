@@ -10,7 +10,7 @@ This page contains various usage examples for ClaudeCodeSDK.jl.
 using ClaudeCodeSDK
 
 # Basic query
-result = query("What is 2 + 2?")
+result = query(prompt="What is 2 + 2?")
 for message in result
     if message isa AssistantMessage
         for block in message.content
@@ -32,7 +32,7 @@ options = ClaudeCodeOptions(
     system_prompt="You are a helpful math tutor. Explain your reasoning step by step."
 )
 
-result = query("How do you solve 2x + 5 = 13?", options=options)
+result = query(prompt="How do you solve 2x + 5 = 13?", options=options)
 for message in result
     if message isa AssistantMessage
         for block in message.content
@@ -57,7 +57,7 @@ options = ClaudeCodeOptions(
     allowed_tools=["Read", "Write"]
 )
 
-result = query("List the files in the current directory", options=options)
+result = query(prompt="List the files in the current directory", options=options)
 ```
 
 ### Model Selection
@@ -70,7 +70,7 @@ options = ClaudeCodeOptions(
     model="claude-3-5-sonnet-20241022"
 )
 
-result = query("Write a haiku about programming", options=options)
+result = query(prompt="Write a haiku about programming", options=options)
 ```
 
 ### Permission Modes
@@ -84,7 +84,7 @@ options = ClaudeCodeOptions(
     permission_mode="acceptEdits"
 )
 
-result = query("Create a hello.jl file with a simple greeting", options=options)
+result = query(prompt="Create a hello.jl file with a simple greeting", options=options)
 ```
 
 ## Advanced Examples
@@ -101,11 +101,11 @@ options = ClaudeCodeOptions(
 )
 
 # First query
-result1 = query("Help me write a function to calculate fibonacci numbers", options=options)
+result1 = query(prompt="Help me write a function to calculate fibonacci numbers", options=options)
 
 # Process response and continue conversation
 # Note: Currently each query is independent - conversation state is maintained by Claude CLI
-result2 = query("Can you optimize that fibonacci function?", options=options)
+result2 = query(prompt="Can you optimize that fibonacci function?", options=options)
 ```
 
 ### Tool Usage with Error Handling
@@ -120,7 +120,7 @@ options = ClaudeCodeOptions(
 )
 
 try
-    result = query("Read the contents of README.md and summarize it", options=options)
+    result = query(prompt="Read the contents of README.md and summarize it", options=options)
     
     for message in result
         if message isa AssistantMessage
@@ -162,7 +162,7 @@ options = ClaudeCodeOptions(
 )
 
 # Ask for code review
-result = query("Please review the code in src/ClaudeCodeSDK.jl and suggest improvements", options=options)
+result = query(prompt="Please review the code in src/ClaudeCodeSDK.jl and suggest improvements", options=options)
 
 for message in result
     if message isa AssistantMessage
@@ -186,7 +186,7 @@ using ClaudeCodeSDK
 function is_cli_available()
     try
         # Simple test query
-        result = query("test")
+        result = query(prompt="test")
         return true
     catch e
         if e isa CLINotFoundError
@@ -199,7 +199,7 @@ end
 
 if is_cli_available()
     println("Claude CLI is available")
-    result = query("Hello Claude!")
+    result = query(prompt="Hello Claude!")
 else
     println("Claude CLI not found. Please install it first.")
 end
@@ -251,7 +251,7 @@ queries = [
 for query_text in queries
     println("\\n=== $query_text ===")
     try
-        result = query(query_text, options=options)
+        result = query(prompt=query_text, options=options)
         for message in result
             if message isa AssistantMessage
                 for block in message.content
@@ -279,7 +279,7 @@ options = ClaudeCodeOptions(
     cwd=pwd()
 )
 
-result = query("Read the source files and generate API documentation in Markdown format", options=options)
+result = query(prompt="Read the source files and generate API documentation in Markdown format", options=options)
 
 for message in result
     if message isa AssistantMessage

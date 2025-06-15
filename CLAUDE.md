@@ -20,6 +20,23 @@ julia --project test/test_transport.jl
 julia --project test/test_integration.jl
 ```
 
+### Documentation
+
+After making code changes, update the documentation:
+
+```bash
+# Update documentation files in docs/src/ if needed
+# Key files:
+# - docs/src/index.md - Main landing page
+# - docs/src/getting-started.md - Installation and basic usage
+# - docs/src/examples.md - Comprehensive usage examples
+# - docs/src/api.md - API reference (auto-generated from docstrings)
+
+# Note: All documentation examples use keyword argument syntax:
+# query(prompt="...", options=options) - CORRECT
+# query("...") - INCORRECT (will cause MethodError)
+```
+
 ### Example Usage
 ```bash
 # Run example files
@@ -93,7 +110,7 @@ This is an **unofficial** Julia SDK for Claude Code that **fully mirrors** the P
 
 ### Test Files Structure:
 1. **`test/test_types.jl`** - Message types, options configuration, content blocks
-2. **`test/test_errors.jl`** - Error hierarchy, exception handling, string representations  
+2. **`test/test_errors.jl`** - Error hierarchy, exception handling, string representations
 3. **`test/test_client.jl`** - Query function, message processing, client configuration
 4. **`test/test_transport.jl`** - CLI discovery, command building, JSON streaming, process management
 5. **`test/test_integration.jl`** - End-to-end testing, CLI integration, comprehensive scenarios
@@ -127,10 +144,12 @@ Tests gracefully handle CLI availability:
 
 ## API Usage Examples
 
+**IMPORTANT**: Always use keyword arguments with the `query` function:
+
 ```julia
 using ClaudeCodeSDK
 
-# Basic usage
+# ✅ CORRECT: Basic usage with keyword arguments
 for message in query(prompt="What is 2 + 2?")
     if message isa AssistantMessage
         for block in message.content
@@ -140,6 +159,9 @@ for message in query(prompt="What is 2 + 2?")
         end
     end
 end
+
+# ❌ INCORRECT: This will cause MethodError
+# query("What is 2 + 2?")  # Don't do this!
 
 # Advanced configuration
 options = ClaudeCodeOptions(
@@ -162,6 +184,11 @@ end
 
 ## Status: ✅ Complete
 
+✅ **Recent Updates:**
+- **Documentation Fixed**: All examples now use correct keyword argument syntax (`query(prompt="...")`)
+- **CLI-Aware Demo Fixed**: All example files run without method errors
+- **Documentation Updated**: docs/src/ files updated with proper API usage patterns
+
 The Julia SDK now provides **full feature parity** with the Python SDK:
 
 1. ✅ **API Compatibility**: Exact same function signatures and behavior
@@ -177,7 +204,7 @@ The Julia SDK now provides **full feature parity** with the Python SDK:
 
 ### Test Suite Highlights:
 - **Complete Python Test Port**: All test files from `claude-code-sdk-python/tests/` successfully ported
-- **5 Test Files**: `test_types.jl`, `test_errors.jl`, `test_client.jl`, `test_transport.jl`, `test_integration.jl`  
+- **5 Test Files**: `test_types.jl`, `test_errors.jl`, `test_client.jl`, `test_transport.jl`, `test_integration.jl`
 - **288 Total Tests**: Comprehensive coverage matching Python SDK exactly
 - **100% Pass Rate**: All tests consistently pass ✅
 - **CLI Adaptive**: Tests intelligently handle CLI availability

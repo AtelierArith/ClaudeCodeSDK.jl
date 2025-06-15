@@ -98,6 +98,28 @@ for message in query(
 end
 ```
 
+## Recent Updates
+
+✅ **CLI-Aware Demo Fixed**: All example files now work correctly with proper keyword argument syntax.
+
+## Available Examples
+
+The repository includes several runnable examples:
+
+```bash
+# Basic usage with all features
+julia --project examples/quick_start.jl
+
+# JSON streaming and message processing demo  
+julia --project examples/streaming_demo.jl
+
+# Tool execution without CLI dependency
+julia --project examples/tool_execution_demo.jl
+
+# CLI-aware functionality with error handling
+julia --project examples/cli_aware_demo.jl
+```
+
 ## Next Steps
 
 - [Getting Started Guide](getting-started.md)
