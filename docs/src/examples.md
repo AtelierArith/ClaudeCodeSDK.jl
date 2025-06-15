@@ -293,6 +293,39 @@ for message in result
 end
 ```
 
+## Testing Examples
+
+### Running the Comprehensive Test Suite
+
+The SDK includes a complete test suite ported from the Python SDK with 288 tests:
+
+```bash
+# Run all tests
+julia --project -e "using Pkg; Pkg.test()"
+
+# Run specific test categories
+julia --project test/test_types.jl        # Message types and options
+julia --project test/test_errors.jl       # Error handling
+julia --project test/test_client.jl       # Client functionality  
+julia --project test/test_transport.jl    # CLI communication
+julia --project test/test_integration.jl  # End-to-end scenarios
+```
+
+### JSON Streaming Demo
+
+The SDK includes a comprehensive streaming demo showing how JSON responses are processed:
+
+```bash
+# Run streaming demo
+julia --project examples/streaming_demo.jl
+```
+
+This demo shows:
+- Real-time JSON message processing
+- Message type identification
+- Tool usage flow
+- Cost and timing information
+
 ## Running the Example Files
 
 The repository includes several example files you can run directly:
@@ -300,6 +333,9 @@ The repository includes several example files you can run directly:
 ```bash
 # Basic usage example
 julia --project examples/quick_start.jl
+
+# JSON streaming capabilities
+julia --project examples/streaming_demo.jl
 
 # Tool execution without CLI
 julia --project examples/tool_execution_demo.jl

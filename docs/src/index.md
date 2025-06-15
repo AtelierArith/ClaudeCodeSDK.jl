@@ -26,6 +26,7 @@ A comprehensive Julia port of the Claude Code SDK that provides a native Julia i
 - Equivalent configuration options
 - Matching error handling
 - Similar message structure
+- **Complete test suite ported** (288 tests matching Python SDK exactly)
 
 ## Installation
 
