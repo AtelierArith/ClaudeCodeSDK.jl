@@ -72,20 +72,20 @@ end
 ```julia
 # All available configuration options
 options = ClaudeCodeOptions(
-    system_prompt="You are a helpful assistant",
-    max_turns=5,
-    cwd="/path/to/project",
     allowed_tools=["Read", "Write", "Bash"],
+    max_thinking_tokens=8000,
+    system_prompt="You are a helpful assistant",
+    append_system_prompt=nothing,
+    mcp_tools=String[],
+    mcp_servers=Dict{String, McpServerConfig}(),
     permission_mode="acceptEdits",
+    continue_conversation=false,
+    resume=nothing,
+    max_turns=5,
+    disallowed_tools=String[],
     model="claude-3-5-sonnet-20241022",
-    enable_mcp=false,
-    mcp_server_configs=nothing,
-    suppress_client_logs=true,
-    custom_instructions=nothing,
-    memory_path=nothing,
-    memory_disabled=false,
-    test_mode=false,
-    disable_tools=String[]
+    permission_prompt_tool_name=nothing,
+    cwd="/path/to/project"
 )
 
 result = query("Help me with my project", options=options)

@@ -116,8 +116,7 @@ using ClaudeCodeSDK
 # Configure tools and error handling
 options = ClaudeCodeOptions(
     allowed_tools=["Read", "Write", "Bash"],
-    cwd=pwd(),
-    suppress_client_logs=false
+    cwd=pwd()
 )
 
 try
@@ -129,9 +128,9 @@ try
                 if block isa TextBlock
                     println("Summary: $(block.text)")
                 elseif block isa ToolUseBlock
-                    println("Tool used: $(block.tool) with args: $(block.args)")
+                    println("Tool used: $(block.name) with input: $(block.input)")
                 elseif block isa ToolResultBlock
-                    println("Tool result: $(block.result)")
+                    println("Tool result: $(block.content)")
                 end
             end
         end
