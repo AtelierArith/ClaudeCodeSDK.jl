@@ -2,6 +2,10 @@
 
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/AtelierArith/ClaudeCodeSDK.jl)
 
+[![CI](https://github.com/AtelierArith/ClaudeCodeSDK.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/AtelierArith/ClaudeCodeSDK.jl/actions/workflows/ci.yml)
+
+[![Documentation](https://github.com/AtelierArith/ClaudeCodeSDK.jl/actions/workflows/documentation.yml/badge.svg)](https://github.com/AtelierArith/ClaudeCodeSDK.jl/actions/workflows/documentation.yml)
+
 ## Warning
 
 This implementation is UNOFFICIAL!!!
