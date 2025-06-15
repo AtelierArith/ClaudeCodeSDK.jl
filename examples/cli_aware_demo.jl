@@ -19,7 +19,7 @@ if check_claude_cli()
     # Basic usage example
     println("\n1. Basic Query:")
     try
-        for message in query("What is 2 + 2?")
+        for message in query(prompt="What is 2 + 2?")
             if message isa AssistantMessage
                 for block in message.content
                     if block isa TextBlock
@@ -40,7 +40,7 @@ if check_claude_cli()
     )
 
     try
-        for message in query("Tell me a short joke", options=options)
+        for message in query(prompt="Tell me a short joke", options=options)
             if message isa AssistantMessage
                 for block in message.content
                     if block isa TextBlock
@@ -61,7 +61,7 @@ if check_claude_cli()
     )
 
     try
-        for message in query("Create a simple hello.jl file with println", options=options)
+        for message in query(prompt="Create a simple hello.jl file with println", options=options)
             if message isa AssistantMessage
                 for block in message.content
                     if block isa TextBlock
@@ -106,7 +106,7 @@ else
     
     # Show error handling
     try
-        query("Hello")
+        query(prompt="Hello")
     catch e
         if e isa CLINotFoundError
             println("   ✓ Proper error handling: $(typeof(e))")
