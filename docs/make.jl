@@ -7,7 +7,7 @@ makedocs(
     modules=[ClaudeCodeSDK],
     format=Documenter.HTML(
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://your-organization.github.io/ClaudeCodeSDK.jl",
+        canonical="https://atelierarith.github.io/ClaudeCodeSDK.jl",
         assets=String[],
     ),
     pages=[
@@ -18,11 +18,11 @@ makedocs(
         "Architecture" => "architecture.md",
         "Error Handling" => "errors.md",
     ],
-    repo="https://github.com/your-organization/ClaudeCodeSDK.jl/blob/{commit}{path}#{line}",
+    repo="https://github.com/AtelierArith/ClaudeCodeSDK.jl/blob/{commit}{path}#{line}",
     checkdocs=:none,  # Changed from :exports to :none to be less strict
 )
 
 deploydocs(
-    repo="github.com/your-organization/ClaudeCodeSDK.jl.git",
+    repo="github.com/AtelierArith/ClaudeCodeSDK.jl.git",
     devbranch="main",
 )
