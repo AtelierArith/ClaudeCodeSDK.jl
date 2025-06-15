@@ -1,25 +1,31 @@
 # ClaudeCodeSDK.jl
 
-A Julia port of the Claude Code SDK, providing a native Julia interface for interacting with Claude Code CLI. This implementation closely mirrors the Python SDK architecture while following Julia conventions and patterns.
+A comprehensive Julia port of the Claude Code SDK that provides a native Julia interface for interacting with Claude Code CLI. This implementation closely mirrors the official Python SDK architecture while leveraging Julia's strengths in type safety and performance.
 
 ## Status
 
-**Core functionality complete and working.** Basic queries and options handling fully functional with the Claude CLI.
+✅ **Fully functional** - Complete feature parity with Python SDK. All core features implemented, tested, and working.
 
 ## Features
 
-✅ **Working Features:**
-- Basic Claude queries with text responses
-- Configuration options (`ClaudeCodeOptions`)
-- CLI process management and communication
-- Message type system and parsing
-- Error handling with proper exceptions
-- Tool type definitions and local execution
+✅ **Complete Implementation:**
+- **Keyword Argument API**: `query(prompt="...", options=...)` matching Python SDK
+- **Advanced Configuration**: All 14 `ClaudeCodeOptions` fields including MCP support
+- **Robust CLI Integration**: Complete command building with all CLI options
+- **Type Safety**: Full Julia type annotations throughout
+- **Tool Execution**: Read, Write, Bash tools with proper result handling
+- **Message Parsing**: Complete support for all message types
+- **JSON Streaming**: Real-time response parsing from CLI
+- **Error Handling**: Comprehensive exception hierarchy
+- **Cost Tracking**: Usage and cost information from queries
+- **Environment Management**: Working directory and environment variable support
+- **MCP Support**: Model Context Protocol servers and tools
 
-⚠️ **Known Limitations:**
-- Tool usage with Claude CLI needs CLI interface refinement
-- Streaming JSON responses not yet implemented
-- Some advanced Claude CLI options not yet supported
+✅ **Python SDK Compatibility:**
+- Same API patterns and functionality
+- Equivalent configuration options
+- Matching error handling
+- Similar message structure
 
 ## Installation
 
@@ -43,14 +49,51 @@ julia --project -e "using Pkg; Pkg.instantiate()"
 ```julia
 using ClaudeCodeSDK
 
-# Basic query
-for message in query("What is 2 + 2?")
+# Basic query (new keyword argument API)
+for message in query(prompt="What is 2 + 2?")
+    if message isa AssistantMessage
+        for block in message.content
+            if block isa TextBlock
+                println(block.text)  # Output: 4
+            end
+        end
+    end
+end
+
+# With configuration options
+options = ClaudeCodeOptions(
+    system_prompt="You are a helpful assistant that explains things simply.",
+    max_turns=1
+)
+
+for message in query(prompt="Explain what Julia is in one sentence.", options=options)
     if message isa AssistantMessage
         for block in message.content
             if block isa TextBlock
                 println(block.text)
             end
         end
+    end
+end
+
+# Using tools
+options = ClaudeCodeOptions(
+    allowed_tools=["Read", "Write"],
+    permission_mode="acceptEdits"
+)
+
+for message in query(
+    prompt="Create a file called hello.txt with 'Hello, World!' in it",
+    options=options
+)
+    if message isa AssistantMessage
+        for block in message.content
+            if block isa TextBlock
+                println(block.text)
+            end
+        end
+    elseif message isa ResultMessage
+        println("Cost: \$$(round(message.cost_usd, digits=4))")
     end
 end
 ```

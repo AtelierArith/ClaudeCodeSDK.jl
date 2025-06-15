@@ -1,82 +1,84 @@
+"""
+Claude SDK for Julia
+"""
 module ClaudeCodeSDK
 
 using JSON
-using HTTP
 
+# Include type definitions
 include("types.jl")
-include("errors.jl")
+include("errors.jl") 
 include("internal/cli.jl")
+include("internal/client.jl")
 include("internal/utils.jl")
 include("internal/tools.jl")
 
-export query, ClaudeCodeOptions, Message, AssistantMessage, UserMessage, SystemMessage, ResultMessage, TextBlock, ToolUseBlock, ToolResultBlock
-export ClaudeSDKError, CLINotFoundError, CLIConnectionError, ProcessError, CLIJSONDecodeError
+# Main function export
+export query
+
+# Type exports 
+export PermissionMode, McpServerConfig
+export UserMessage, AssistantMessage, SystemMessage, ResultMessage, Message
+export ClaudeCodeOptions
+export TextBlock, ToolUseBlock, ToolResultBlock, ContentBlock
+
+# Error exports
+export ClaudeSDKError, CLIConnectionError, CLINotFoundError, ProcessError, CLIJSONDecodeError
+
+# Tool exports (for advanced usage)
 export Tool, ReadTool, WriteTool, BashTool, ToolResult
 export create_tool_from_block, execute_tool
 
-"""
-Internal client implementation
-"""
-struct InternalClient
-end
+const __version__ = "0.1.0"
 
 """
-Process a query through transport layer
-"""
-function process_query(::InternalClient, prompt::String, options::ClaudeCodeOptions)
-    transport = SubprocessCLITransport(prompt, options)
-    
-    messages = Message[]
-    
-    try
-        connect!(transport)
-        
-        for data in receive_messages(transport)
-            message = parse_message(data)
-            if !isnothing(message)
-                push!(messages, message)
-            end
-        end
-        
-    finally
-        disconnect!(transport)
-    end
-    
-    return messages
-end
+    query(; prompt::String, options::Union{ClaudeCodeOptions, Nothing}=nothing)
 
-"""
-    query(prompt::String; options::Union{ClaudeCodeOptions, Nothing}=nothing)
+Query Claude Code.
 
-Send a query to Claude Code and return the response
+Julia SDK for interacting with Claude Code.
 
 # Arguments
-- `prompt::String`: The prompt to send
-- `options::Union{ClaudeCodeOptions, Nothing}`: Configuration options (optional)
+- `prompt::String`: The prompt to send to Claude
+- `options::Union{ClaudeCodeOptions, Nothing}`: Optional configuration (defaults to ClaudeCodeOptions() if nothing).
+  Set options.permission_mode to control tool execution:
+  - 'default': CLI prompts for dangerous tools
+  - 'acceptEdits': Auto-accept file edits  
+  - 'bypassPermissions': Allow all tools (use with caution)
+  Set options.cwd for working directory.
 
 # Returns
-- Vector{Message}: Vector of messages (AssistantMessage, UserMessage, SystemMessage, or ResultMessage)
+- `Vector{Message}`: Vector of messages from the conversation
 
 # Examples
 ```julia
-for message in query("What is 2 + 2?")
-    if message isa AssistantMessage
-        for block in message.content
-            if block isa TextBlock
-                println(block.text)
-            end
-        end
-    end
+# Simple usage
+for message in query(prompt="Hello")
+    println(message)
+end
+
+# With options
+for message in query(
+    prompt="Hello",
+    options=ClaudeCodeOptions(
+        system_prompt="You are helpful",
+        cwd=homedir()
+    )
+)
+    println(message)
 end
 ```
 """
-function query(prompt::String; options::Union{ClaudeCodeOptions, Nothing}=nothing)
-    # Create default options if none provided
-    opts = isnothing(options) ? ClaudeCodeOptions() : options
+function query(; prompt::String, options::Union{ClaudeCodeOptions, Nothing}=nothing)
+    if options === nothing
+        options = ClaudeCodeOptions()
+    end
     
-    # Create client and process query
+    # Set environment variable for SDK identification
+    ENV["CLAUDE_CODE_ENTRYPOINT"] = "sdk-jl"
+    
     client = InternalClient()
-    return process_query(client, prompt, opts)
+    return process_query(client, prompt, options)
 end
 
 end # module

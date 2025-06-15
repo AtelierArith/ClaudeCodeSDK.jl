@@ -12,9 +12,9 @@ This implementation is UNOFFICIAL!!!
 
 ## Description
 
-A Julia port of the Claude Code SDK, providing a native Julia interface for interacting with Claude Code CLI. This implementation closely mirrors the Python SDK architecture while following Julia conventions and patterns.
+A comprehensive Julia port of the Claude Code SDK that provides a native Julia interface for interacting with Claude Code CLI. This implementation closely mirrors the official Python SDK architecture while leveraging Julia's strengths in type safety and performance.
 
-**Status**: Core functionality complete and working. Basic queries and options handling fully functional with the Claude CLI.
+**Status**: ✅ **Fully functional** - All core features implemented and tested. Complete compatibility with Claude Code CLI including tools, MCP servers, and advanced configuration options.
 
 ## Installation
 
@@ -38,8 +38,24 @@ julia --project -e "using Pkg; Pkg.instantiate()"
 ```julia
 using ClaudeCodeSDK
 
-# Basic query
-for message in query("What is 2 + 2?")
+# Basic query (new keyword argument API)
+for message in query(prompt="What is 2 + 2?")
+    if message isa AssistantMessage
+        for block in message.content
+            if block isa TextBlock
+                println(block.text)  # Output: 4
+            end
+        end
+    end
+end
+
+# With configuration options
+options = ClaudeCodeOptions(
+    system_prompt="You are a helpful assistant that explains things simply.",
+    max_turns=1
+)
+
+for message in query(prompt="Explain what Julia is in one sentence.", options=options)
     if message isa AssistantMessage
         for block in message.content
             if block isa TextBlock
@@ -49,19 +65,24 @@ for message in query("What is 2 + 2?")
     end
 end
 
-# With options
+# Using tools
 options = ClaudeCodeOptions(
-    system_prompt="You are a helpful assistant",
-    max_turns=1
+    allowed_tools=["Read", "Write"],
+    permission_mode="acceptEdits"
 )
-result = query("Tell me a joke", options=options)
-for message in result
+
+for message in query(
+    prompt="Create a file called hello.txt with 'Hello, World!' in it",
+    options=options
+)
     if message isa AssistantMessage
         for block in message.content
             if block isa TextBlock
                 println(block.text)
             end
         end
+    elseif message isa ResultMessage
+        println("Cost: \$$(round(message.cost_usd, digits=4))")
     end
 end
 ```
@@ -110,59 +131,97 @@ end
 ```julia
 # Complete options configuration
 options = ClaudeCodeOptions(
-    system_prompt="You are a helpful assistant",
-    max_turns=5,
-    cwd="/path/to/project",
     allowed_tools=["Read", "Write", "Bash"],
+    max_thinking_tokens=8000,
+    system_prompt="You are a helpful assistant",
+    append_system_prompt=nothing,
+    mcp_tools=String[],
+    mcp_servers=Dict{String, McpServerConfig}(),
     permission_mode="acceptEdits",
+    continue_conversation=false,
+    resume=nothing,
+    max_turns=5,
+    disallowed_tools=String[],
     model="claude-3-5-sonnet-20241022",
-    enable_mcp=false,
-    mcp_server_configs=nothing,
-    suppress_client_logs=true,
-    custom_instructions=nothing,
-    memory_path=nothing,
-    memory_disabled=false,
-    test_mode=false,
-    disable_tools=String[]
+    permission_prompt_tool_name=nothing,
+    cwd="/path/to/project"
 )
 
-result = query("Help me with my project", options=options)
+result = query(prompt="Help me with my project", options=options)
 ```
 
-### Current Status & Limitations
+### Features
 
-✅ **Working Features:**
-- Basic Claude queries with text responses
-- Configuration options (`ClaudeCodeOptions`)
-- CLI process management and communication
-- Message type system and parsing
-- Error handling with proper exceptions
-- Tool type definitions and local execution
+✅ **Fully Implemented:**
+- **Complete CLI Integration**: All Claude Code CLI options supported
+- **Keyword Argument API**: `query(prompt="...", options=...)` matching Python SDK
+- **Advanced Configuration**: MCP servers, tool management, permission modes
+- **Robust Error Handling**: Comprehensive exception hierarchy
+- **Type Safety**: Full Julia type annotations throughout
+- **Tool Execution**: Read, Write, Bash tools with proper result handling
+- **Message Parsing**: Complete support for all message types
+- **JSON Streaming**: Real-time response parsing from CLI
+- **Environment Management**: Working directory and environment variable support
+- **Cost Tracking**: Usage and cost information from queries
 
-⚠️ **Known Limitations:**
-- Tool usage with Claude CLI needs CLI interface refinement
-- Streaming JSON responses not yet implemented
-- Some advanced Claude CLI options not yet supported
+✅ **Python SDK Compatibility:**
+- Same API patterns and functionality
+- Equivalent configuration options
+- Matching error handling
+- Similar message structure
 
 ## API Reference
 
-### `query(prompt::String; options::Union{ClaudeCodeOptions, Nothing}=nothing)`
+### `query(; prompt::String, options::Union{ClaudeCodeOptions, Nothing}=nothing)`
 
-Main function for querying Claude.
+Main function for querying Claude Code.
 
 **Parameters:**
 - `prompt::String`: The prompt to send to Claude
-- `options::Union{ClaudeCodeOptions, Nothing}`: Optional configuration
+- `options::Union{ClaudeCodeOptions, Nothing}`: Optional configuration (defaults to ClaudeCodeOptions() if nothing)
+  - Set `options.permission_mode` to control tool execution:
+    - `"default"`: CLI prompts for dangerous tools
+    - `"acceptEdits"`: Auto-accept file edits
+    - `"bypassPermissions"`: Allow all tools (use with caution)
+  - Set `options.cwd` for working directory
 
-**Returns:** `Vector{Message}` - Vector of response messages for easy iteration
+**Returns:** `Vector{Message}` - Vector of messages from the conversation
+
+**Example:**
+```julia
+# Simple usage
+for message in query(prompt="Hello")
+    println(message)
+end
+
+# With options
+for message in query(
+    prompt="Hello",
+    options=ClaudeCodeOptions(
+        system_prompt="You are helpful",
+        cwd=homedir()
+    )
+)
+    println(message)
+end
+```
 
 ### Types
 
 See [src/types.jl](src/types.jl) for complete type definitions:
-- `ClaudeCodeOptions` - Configuration options with all 14 fields
+- `ClaudeCodeOptions` - Configuration options with 14 fields including MCP support
+- `McpServerConfig` - MCP server configuration structure
 - `AssistantMessage`, `UserMessage`, `SystemMessage`, `ResultMessage` - Message types
 - `TextBlock`, `ToolUseBlock`, `ToolResultBlock` - Content blocks
 - `ReadTool`, `WriteTool`, `BashTool` - Tool definitions
+
+### Error Types
+
+- `ClaudeSDKError` - Base exception type
+- `CLINotFoundError` - Claude CLI not installed
+- `CLIConnectionError` - Connection issues
+- `ProcessError` - CLI process failures
+- `CLIJSONDecodeError` - Response parsing issues
 
 ## Architecture
 
