@@ -114,6 +114,8 @@ experiments/
 
 # .claude
 .claude/
+claude-code
+claude-code-sdk-python
 CLAUDE.md
 
 # .vscode
