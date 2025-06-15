@@ -9,8 +9,8 @@ include("internal/cli.jl")
 include("internal/utils.jl")
 include("internal/tools.jl")
 
-export query, ClaudeCodeOptions, AssistantMessage, TextBlock, ToolUseBlock, ToolResultBlock
-export ClaudeSDKError, CLINotFoundError, CLIConnectionError, ProcessError
+export query, ClaudeCodeOptions, Message, AssistantMessage, UserMessage, SystemMessage, ResultMessage, TextBlock, ToolUseBlock, ToolResultBlock
+export ClaudeSDKError, CLINotFoundError, CLIConnectionError, ProcessError, CLIJSONDecodeError
 export Tool, ReadTool, WriteTool, BashTool, ToolResult
 export create_tool_from_block, execute_tool
 

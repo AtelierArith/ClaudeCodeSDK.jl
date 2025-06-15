@@ -27,7 +27,6 @@ ClaudeCodeSDK.ResultMessage
 ### Content Blocks
 
 ```@docs
-ClaudeCodeSDK.ContentBlock
 ClaudeCodeSDK.TextBlock
 ClaudeCodeSDK.ToolUseBlock
 ClaudeCodeSDK.ToolResultBlock
@@ -40,6 +39,24 @@ ClaudeCodeSDK.Tool
 ClaudeCodeSDK.ReadTool
 ClaudeCodeSDK.WriteTool
 ClaudeCodeSDK.BashTool
+ClaudeCodeSDK.ToolResult
+```
+
+### Tool Functions
+
+```@docs
+ClaudeCodeSDK.create_tool_from_block
+ClaudeCodeSDK.execute_tool
+```
+
+## Error Types
+
+```@docs
+ClaudeCodeSDK.ClaudeSDKError
+ClaudeCodeSDK.CLINotFoundError
+ClaudeCodeSDK.CLIConnectionError
+ClaudeCodeSDK.ProcessError
+ClaudeCodeSDK.CLIJSONDecodeError
 ```
 
 ## Internal Components
@@ -47,14 +64,7 @@ ClaudeCodeSDK.BashTool
 ### Transport Layer
 
 ```@docs
-ClaudeCodeSDK.CLITransport
 ClaudeCodeSDK.SubprocessCLITransport
-```
-
-### Client
-
-```@docs
-ClaudeCodeSDK.InternalClient
 ```
 
 ## Function Reference
