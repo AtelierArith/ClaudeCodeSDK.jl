@@ -1,0 +1,113 @@
+# Julia
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+deps/deps.jl
+deps/build.log
+deps/downloads/
+deps/usr/
+deps/src/
+
+# Build artifacts
+docs/build/
+docs/site/
+
+# Generated files
+src/ClaudeCodeSDK.jl.precompile
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# PyCall
+deps/build.log
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Executables
+*.exe
+
+# Object files
+*.o
+*.a
+
+# Backup files
+*~
+*.bak
+*.swp
+*.tmp
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# nyc test coverage
+.nyc_output
+
+# node_modules (if any Node.js tools are used)
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Package manager files
+Package-lock.json
+yarn.lock
+
+# Julia package manager
+Manifest.toml
+
+# Local configuration
+LocalPreferences.toml
+
+# Test artifacts
+test/temp/
+test/tmp/
+
+# Documentation builds
+docs/build/
+docs/site/
+
+# Benchmark results
+benchmark/results/
+
+# Examples output
+examples/output/
+examples/temp/
+examples/*.txt
+examples/*.json
+examples/*.csv
+
+# Development files
+scratch/
+playground/
+experiments/
