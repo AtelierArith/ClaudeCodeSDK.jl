@@ -24,7 +24,7 @@ julia --project test/test_integration.jl
 
 After making code changes, update the documentation:
 
-```bash
+```
 # Update documentation files in docs/src/ if needed
 # Key files:
 # - docs/src/index.md - Main landing page
@@ -35,6 +35,13 @@ After making code changes, update the documentation:
 # Note: All documentation examples use keyword argument syntax:
 # query(prompt="...", options=options) - CORRECT
 # query("...") - INCORRECT (will cause MethodError)
+```
+
+Then, run the following commands
+
+```bash
+julia --project=docs -e 'using Pkg; Pkg.develop(path=".")'
+julia --project=docs docs/make.jl
 ```
 
 ### Example Usage
@@ -181,6 +188,172 @@ for message in query(prompt="Help me with Julia code", options=options)
     end
 end
 ```
+
+## What You Can Do With This SDK
+
+This Julia SDK enables a wide range of development, analysis, and automation tasks by providing programmatic access to Claude's capabilities with full tool integration.
+
+### Development & Coding Tasks
+
+#### **Code Analysis & Review**
+```julia
+# Comprehensive code review
+options = ClaudeCodeOptions(
+    system_prompt="You are an expert Julia code reviewer",
+    allowed_tools=["Read", "Write"],
+    cwd=pwd()
+)
+
+query(prompt="Review all files in src/ and provide optimization suggestions", options=options)
+```
+
+#### **Automated Testing & Quality Assurance**
+```julia
+# Test generation and execution
+options = ClaudeCodeOptions(
+    allowed_tools=["Read", "Write", "Bash"],
+    permission_mode="acceptEdits"
+)
+
+query(prompt="Generate comprehensive unit tests for all functions and run the test suite", options=options)
+```
+
+#### **Project Structure & Architecture**
+```julia
+# Package development assistance
+query(prompt="Create a new Julia package with modern structure, CI/CD, and documentation", 
+      options=ClaudeCodeOptions(allowed_tools=["Read", "Write", "Bash"]))
+```
+
+### Documentation & Learning
+
+#### **Auto-Documentation Generation**
+```julia
+# Generate comprehensive documentation
+options = ClaudeCodeOptions(
+    system_prompt="You are a technical documentation expert",
+    allowed_tools=["Read", "Write"]
+)
+
+query(prompt="Generate API documentation, README, and usage examples from source code", options=options)
+```
+
+#### **Interactive Learning & Teaching**
+```julia
+# Educational assistance
+query(prompt="Explain advanced Julia concepts like multiple dispatch with practical examples",
+      options=ClaudeCodeOptions(system_prompt="You are a Julia programming tutor"))
+```
+
+### Data Analysis & Scientific Computing
+
+#### **Research Data Pipelines**
+```julia
+# Scientific computing workflows
+options = ClaudeCodeOptions(
+    system_prompt="You are a scientific computing expert",
+    allowed_tools=["Read", "Write", "Bash"],
+    cwd="/path/to/research/project"
+)
+
+query(prompt="Create a data processing pipeline for experimental data analysis", options=options)
+```
+
+#### **Statistical Analysis & Visualization**
+```julia
+# Data analysis assistance
+query(prompt="Analyze this dataset, create statistical summaries, and generate visualizations",
+      options=ClaudeCodeOptions(allowed_tools=["Read", "Write"]))
+```
+
+### DevOps & Automation
+
+#### **CI/CD & Build Systems**
+```julia
+# Deployment automation
+query(prompt="Set up GitHub Actions, Docker configuration, and deployment scripts",
+      options=ClaudeCodeOptions(allowed_tools=["Read", "Write"]))
+```
+
+#### **Performance Optimization**
+```julia
+# Performance analysis
+options = ClaudeCodeOptions(
+    system_prompt="You are a Julia performance optimization expert",
+    allowed_tools=["Read", "Write", "Bash"]
+)
+
+query(prompt="Profile this code, identify bottlenecks, and implement optimizations", options=options)
+```
+
+### Advanced Integration
+
+#### **Multi-Language Projects**
+```julia
+# Cross-language development
+query(prompt="Create Python-Julia interop code using PyCall and handle data exchange",
+      options=ClaudeCodeOptions(allowed_tools=["Read", "Write"]))
+```
+
+#### **Model Context Protocol (MCP) Integration**
+```julia
+# External tool integration
+options = ClaudeCodeOptions(
+    mcp_servers=Dict("database" => McpServerConfig(...)),
+    allowed_tools=["Read", "Write", "custom_db_tool"]
+)
+
+query(prompt="Query database and generate analysis reports", options=options)
+```
+
+### Real-World Example Workflows
+
+#### **Complete Package Development**
+```julia
+# End-to-end package creation
+options = ClaudeCodeOptions(
+    system_prompt="You are a Julia package development expert",
+    allowed_tools=["Read", "Write", "Bash"],
+    permission_mode="acceptEdits",
+    max_turns=10
+)
+
+query(prompt="Create a machine learning package: structure, algorithms, tests, docs, and CI", options=options)
+```
+
+#### **Code Migration & Modernization**
+```julia
+# Large-scale refactoring
+query(prompt="Migrate this codebase to Julia 1.10, update deprecated functions, and modernize syntax",
+      options=ClaudeCodeOptions(allowed_tools=["Read", "Write"], max_turns=15))
+```
+
+### Key Advantages
+
+#### **Cost & Performance Monitoring**
+```julia
+# Track usage and performance
+for message in query(prompt="Complex analysis task", options=options)
+    if message isa ResultMessage
+        println("API Cost: \$$(message.cost_usd)")
+        println("Duration: $(message.duration_ms)ms") 
+        println("Tokens: $(message.usage.input_tokens) in, $(message.usage.output_tokens) out")
+    end
+end
+```
+
+#### **Type Safety & Error Handling**
+- Full Julia type system integration with `Union` types
+- Comprehensive exception hierarchy (`CLINotFoundError`, `ProcessError`, etc.)
+- Graceful handling of CLI availability and network issues
+
+#### **Intelligent Tool Integration**
+- **Read Tool**: Analyze files, understand project structure
+- **Write Tool**: Generate code, documentation, configuration files  
+- **Bash Tool**: Execute commands, run tests, manage dependencies
+- **MCP Tools**: Connect to databases, APIs, and external services
+
+This SDK transforms Claude into a powerful development companion that understands Julia's ecosystem while providing enterprise-grade reliability and comprehensive tool integration.
 
 ## Status: ✅ Complete
 
