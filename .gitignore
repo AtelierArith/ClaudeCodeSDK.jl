@@ -111,3 +111,10 @@ examples/*.csv
 scratch/
 playground/
 experiments/
+
+# .claude
+.claude/
+CLAUDE.md
+
+# .vscode
+.vscode/
