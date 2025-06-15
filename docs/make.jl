@@ -9,6 +9,7 @@ makedocs(
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://atelierarith.github.io/ClaudeCodeSDK.jl",
         assets=String[],
+        repolink="https://github.com/AtelierArith/ClaudeCodeSDK.jl",
     ),
     pages=[
         "Home" => "index.md",
@@ -25,4 +26,6 @@ makedocs(
 deploydocs(
     repo="github.com/AtelierArith/ClaudeCodeSDK.jl.git",
     devbranch="main",
+    push_preview=true,
+    forcepush=true,
 )
