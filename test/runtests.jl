@@ -13,7 +13,8 @@ end
 
 const CLI_AVAILABLE = check_cli_available_for_tests()
 
-@testset "ClaudeCodeSDK" begin
+@testset "ClaudeCodeSDK.jl" begin
+    # Core functionality tests (always run)
     @testset "Type Construction" begin
         # Test ClaudeCodeOptions construction
         options = ClaudeCodeOptions()
@@ -77,6 +78,14 @@ const CLI_AVAILABLE = check_cli_available_for_tests()
         @test tool.path == "test.txt"
     end
 
+    # Include all ported test files
+    include("test_types.jl")
+    include("test_errors.jl")
+    include("test_client.jl")
+    include("test_transport.jl")
+    include("test_integration.jl")
+
+    # CLI-dependent tests
     if CLI_AVAILABLE
         @testset "Basic Query (requires CLI)" begin
             # Test basic query functionality
