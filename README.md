@@ -138,6 +138,8 @@ end
 
 ```julia
 # Complete options configuration
+using ClaudeCodeSDK
+
 options = ClaudeCodeOptions(
     allowed_tools=["Read", "Write", "Bash"],
     max_thinking_tokens=8000,
@@ -152,10 +154,20 @@ options = ClaudeCodeOptions(
     disallowed_tools=String[],
     model="claude-3-5-sonnet-20241022",
     permission_prompt_tool_name=nothing,
-    cwd="/path/to/project"
+    cwd="."
 )
 
-result = query(prompt="Help me with my project", options=options)
+result = query(prompt="Help me with my project", options=options);
+
+for message in result
+    if message isa AssistantMessage
+        for block in message.content
+            if block isa TextBlock
+                println(block.text)
+            end
+        end
+    end
+end
 ```
 
 ### Features
