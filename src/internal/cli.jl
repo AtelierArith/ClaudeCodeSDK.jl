@@ -206,6 +206,96 @@ function receive_messages(transport::SubprocessCLITransport)
 end
 
 """
+Stream messages from the CLI process as they arrive
+"""
+function stream_messages(transport::SubprocessCLITransport)
+    Channel() do channel
+        try
+            # Build command
+            cmd = build_command(transport)
+            
+            # Prepare environment with SDK identifier
+            env = copy(ENV)
+            env["CLAUDE_CODE_ENTRYPOINT"] = "sdk-jl"
+            
+            # Create command with environment
+            cmd_obj = setenv(Cmd(cmd), env)
+            
+            # Execute command with streaming output
+            if transport.cwd !== nothing
+                # Change to working directory temporarily
+                original_pwd = pwd()
+                cd(transport.cwd)
+                try
+                    # Use pipeline to stream output line by line
+                    proc = open(cmd_obj, "r")
+                    transport.process = proc
+                    
+                    # Read lines as they arrive
+                    for line in eachline(proc)
+                        line_str = strip(line)
+                        if isempty(line_str)
+                            continue
+                        end
+                        
+                        try
+                            data = JSON.parse(line_str)
+                            put!(channel, data)
+                        catch e
+                            if startswith(line_str, "{") || startswith(line_str, "[")
+                                throw(CLIJSONDecodeError(line_str, e))
+                            end
+                            # Skip non-JSON lines (might be debug output)
+                            continue
+                        end
+                    end
+                finally
+                    cd(original_pwd)
+                end
+            else
+                # Use pipeline to stream output line by line
+                proc = open(cmd_obj, "r")
+                transport.process = proc
+                
+                # Read lines as they arrive
+                for line in eachline(proc)
+                    line_str = strip(line)
+                    if isempty(line_str)
+                        continue
+                    end
+                    
+                    try
+                        data = JSON.parse(line_str)
+                        put!(channel, data)
+                    catch e
+                        if startswith(line_str, "{") || startswith(line_str, "[")
+                            throw(CLIJSONDecodeError(line_str, e))
+                        end
+                        # Skip non-JSON lines (might be debug output)
+                        continue
+                    end
+                end
+            end
+            
+        catch e
+            if e isa ProcessFailedException
+                throw(ProcessError(
+                    "CLI process failed";
+                    exit_code=e.exitcode,
+                    stderr="Process exited with code $(e.exitcode)"
+                ))
+            elseif e isa CLIJSONDecodeError
+                rethrow(e)
+            elseif e isa SystemError && e.errnum == 2  # File not found
+                throw(CLINotFoundError("Claude Code not found at: $(transport.cli_path)"; cli_path=transport.cli_path))
+            else
+                throw(CLIConnectionError("Failed to execute Claude Code: $e"))
+            end
+        end
+    end
+end
+
+"""
 Disconnect from the CLI process
 """
 function disconnect!(transport::SubprocessCLITransport)

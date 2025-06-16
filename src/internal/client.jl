@@ -29,3 +29,25 @@ function process_query(client::InternalClient, prompt::String, options::ClaudeCo
     
     return messages
 end
+
+"""
+Process a query through transport with streaming
+"""
+function process_query_stream(client::InternalClient, prompt::String, options::ClaudeCodeOptions)
+    Channel{Message}() do channel
+        transport = SubprocessCLITransport(prompt, options)
+        
+        try
+            # Use streaming version
+            for data in stream_messages(transport)
+                message = parse_message(data)
+                if message !== nothing
+                    put!(channel, message)
+                end
+            end
+            
+        finally
+            disconnect!(transport)
+        end
+    end
+end

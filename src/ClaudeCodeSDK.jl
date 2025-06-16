@@ -14,7 +14,7 @@ include("internal/utils.jl")
 include("internal/tools.jl")
 
 # Main function export
-export query
+export query, query_stream
 
 # Type exports 
 export PermissionMode, McpServerConfig
@@ -79,6 +79,47 @@ function query(; prompt::String, options::Union{ClaudeCodeOptions, Nothing}=noth
     
     client = InternalClient()
     return process_query(client, prompt, options)
+end
+
+"""
+    query_stream(; prompt::String, options::Union{ClaudeCodeOptions, Nothing}=nothing)
+
+Query Claude Code with real-time streaming output.
+
+Returns a Channel that yields messages as they arrive from the Claude CLI.
+
+# Arguments
+- `prompt::String`: The prompt to send to Claude
+- `options::Union{ClaudeCodeOptions, Nothing}`: Optional configuration
+
+# Returns
+- `Channel{Message}`: Channel that yields messages as they arrive
+
+# Examples
+```julia
+# Stream messages in real-time
+for message in query_stream(prompt="Write a story")
+    if message isa AssistantMessage
+        for block in message.content
+            if block isa TextBlock
+                print(block.text)
+                flush(stdout)
+            end
+        end
+    end
+end
+```
+"""
+function query_stream(; prompt::String, options::Union{ClaudeCodeOptions, Nothing}=nothing)
+    if options === nothing
+        options = ClaudeCodeOptions()
+    end
+    
+    # Set environment variable for SDK identification
+    ENV["CLAUDE_CODE_ENTRYPOINT"] = "sdk-jl"
+    
+    client = InternalClient()
+    return process_query_stream(client, prompt, options)
 end
 
 end # module
