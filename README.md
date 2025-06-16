@@ -122,7 +122,7 @@ julia --project examples/cli_aware_demo.jl
 using ClaudeCodeSDK
 
 # Simple query - returns Vector{Message}
-result = query("Hello Claude")
+result = query(prompt="Hello Claude")
 for message in result
     if message isa AssistantMessage
         for block in message.content
@@ -247,7 +247,7 @@ This Julia SDK follows a modular design with:
 using ClaudeCodeSDK
 
 try
-    result = query("Hello")
+    result = query(prompt="Hello")
     for message in result
         println(message)
     end
