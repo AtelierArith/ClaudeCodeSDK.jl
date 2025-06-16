@@ -22,7 +22,7 @@ This package is currently in development. To use it:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/AtelierArith/ClaudeCodeSDK.jl.git
 cd ClaudeCodeSDK.jl
 
 # Install dependencies
@@ -270,7 +270,7 @@ See [src/errors.jl](src/errors.jl) for the complete exception hierarchy.
 
 ### Test Files Structure:
 1. **`test/test_types.jl`** - Message types, options configuration, content blocks
-2. **`test/test_errors.jl`** - Error hierarchy, exception handling, string representations  
+2. **`test/test_errors.jl`** - Error hierarchy, exception handling, string representations
 3. **`test/test_client.jl`** - Query function, message processing, client configuration
 4. **`test/test_transport.jl`** - CLI discovery, command building, JSON streaming, process management
 5. **`test/test_integration.jl`** - End-to-end testing, CLI integration, comprehensive scenarios
