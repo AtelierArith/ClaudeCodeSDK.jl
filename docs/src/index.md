@@ -33,7 +33,7 @@ This package is currently in development. To use it:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/AtelierArith/ClaudeCodeSDK.jl.git
 cd ClaudeCodeSDK.jl
 
 # Install dependencies
@@ -110,7 +110,7 @@ The repository includes several runnable examples:
 # Basic usage with all features
 julia --project examples/quick_start.jl
 
-# JSON streaming and message processing demo  
+# JSON streaming and message processing demo
 julia --project examples/streaming_demo.jl
 
 # Tool execution without CLI dependency

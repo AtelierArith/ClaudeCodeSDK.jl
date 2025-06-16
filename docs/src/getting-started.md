@@ -16,7 +16,7 @@ Since the package is in development, you'll need to clone and set it up locally:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/AtelierArith/ClaudeCodeSDK.jl.git
 cd ClaudeCodeSDK.jl
 
 # Install dependencies
