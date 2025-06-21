@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Home · ClaudeCodeSDK.jl</title><meta name="title" content="Home · ClaudeCodeSDK.jl"/><meta property="og:title" content="Home · ClaudeCodeSDK.jl"/><meta property="twitter:title" content="Home · ClaudeCodeSDK.jl"/><meta name="description" content="Documentation for ClaudeCodeSDK.jl."/><meta property="og:description" content="Documentation for ClaudeCodeSDK.jl."/><meta property="twitter:description" content="Documentation for ClaudeCodeSDK.jl."/><meta property="og:url" content="https://atelierarith.github.io/ClaudeCodeSDK.jl/"/><meta property="twitter:url" content="https://atelierarith.github.io/ClaudeCodeSDK.jl/"/><link rel="canonical" href="https://atelierarith.github.io/ClaudeCodeSDK.jl/"/><script data-outdated-warner src="assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="search_index.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href>ClaudeCodeSDK.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Home</a><ul class="internal"><li><a class="tocitem" href="#Status"><span>Status</span></a></li><li><a class="tocitem" href="#Features"><span>Features</span></a></li><li><a class="tocitem" href="#Installation"><span>Installation</span></a></li><li><a class="tocitem" href="#Quick-Start"><span>Quick Start</span></a></li><li><a class="tocitem" href="#Recent-Updates"><span>Recent Updates</span></a></li><li><a class="tocitem" href="#Available-Examples"><span>Available Examples</span></a></li><li><a class="tocitem" href="#Next-Steps"><span>Next Steps</span></a></li></ul></li><li><a class="tocitem" href="getting-started/">Getting Started</a></li><li><a class="tocitem" href="api/">API Reference</a></li><li><a class="tocitem" href="examples/">Examples</a></li><li><a class="tocitem" href="architecture/">Architecture</a></li><li><a class="tocitem" href="errors/">Error Handling</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Home</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Home</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/AtelierArith/ClaudeCodeSDK.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/AtelierArith/ClaudeCodeSDK.jl/blob/main/docs/src/index.md#" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="ClaudeCodeSDK.jl"><a class="docs-heading-anchor" href="#ClaudeCodeSDK.jl">ClaudeCodeSDK.jl</a><a id="ClaudeCodeSDK.jl-1"></a><a class="docs-heading-anchor-permalink" href="#ClaudeCodeSDK.jl" title="Permalink"></a></h1><p>A comprehensive Julia port of the Claude Code SDK that provides a native Julia interface for interacting with Claude Code CLI. This implementation closely mirrors the official Python SDK architecture while leveraging Julia&#39;s strengths in type safety and performance.</p><h2 id="Status"><a class="docs-heading-anchor" href="#Status">Status</a><a id="Status-1"></a><a class="docs-heading-anchor-permalink" href="#Status" title="Permalink"></a></h2><p>✅ <strong>Fully functional</strong> - Complete feature parity with Python SDK. All core features implemented, tested, and working.</p><h2 id="Features"><a class="docs-heading-anchor" href="#Features">Features</a><a id="Features-1"></a><a class="docs-heading-anchor-permalink" href="#Features" title="Permalink"></a></h2><p>✅ <strong>Complete Implementation:</strong></p><ul><li><strong>Keyword Argument API</strong>: <code>query(prompt=&quot;...&quot;, options=...)</code> matching Python SDK</li><li><strong>Advanced Configuration</strong>: All 14 <code>ClaudeCodeOptions</code> fields including MCP support</li><li><strong>Robust CLI Integration</strong>: Complete command building with all CLI options</li><li><strong>Type Safety</strong>: Full Julia type annotations throughout</li><li><strong>Tool Execution</strong>: Read, Write, Bash tools with proper result handling</li><li><strong>Message Parsing</strong>: Complete support for all message types</li><li><strong>JSON Streaming</strong>: Real-time response parsing from CLI</li><li><strong>Error Handling</strong>: Comprehensive exception hierarchy</li><li><strong>Cost Tracking</strong>: Usage and cost information from queries</li><li><strong>Environment Management</strong>: Working directory and environment variable support</li><li><strong>MCP Support</strong>: Model Context Protocol servers and tools</li></ul><p>✅ <strong>Python SDK Compatibility:</strong></p><ul><li>Same API patterns and functionality</li><li>Equivalent configuration options</li><li>Matching error handling</li><li>Similar message structure</li></ul><h2 id="Installation"><a class="docs-heading-anchor" href="#Installation">Installation</a><a id="Installation-1"></a><a class="docs-heading-anchor-permalink" href="#Installation" title="Permalink"></a></h2><p>This package is currently in development. To use it:</p><pre><code class="language-bash hljs"># Clone the repository
+git clone &lt;repository-url&gt;
+cd ClaudeCodeSDK.jl
+
+# Install dependencies
+julia --project -e &quot;using Pkg; Pkg.instantiate()&quot;</code></pre><p><strong>Prerequisites:</strong></p><ul><li>Julia 1.10+</li><li>Node.js to install Claude Code CLI: <code>npm install -g @anthropic-ai/claude-code</code></li></ul><h2 id="Quick-Start"><a class="docs-heading-anchor" href="#Quick-Start">Quick Start</a><a id="Quick-Start-1"></a><a class="docs-heading-anchor-permalink" href="#Quick-Start" title="Permalink"></a></h2><pre><code class="language-julia hljs">using ClaudeCodeSDK
+
+# Basic query (new keyword argument API)
+for message in query(prompt=&quot;What is 2 + 2?&quot;)
+    if message isa AssistantMessage
+        for block in message.content
+            if block isa TextBlock
+                println(block.text)  # Output: 4
+            end
+        end
+    end
+end
+
+# With configuration options
+options = ClaudeCodeOptions(
+    system_prompt=&quot;You are a helpful assistant that explains things simply.&quot;,
+    max_turns=1
+)
+
+for message in query(prompt=&quot;Explain what Julia is in one sentence.&quot;, options=options)
+    if message isa AssistantMessage
+        for block in message.content
+            if block isa TextBlock
+                println(block.text)
+            end
+        end
+    end
+end
+
+# Using tools
+options = ClaudeCodeOptions(
+    allowed_tools=[&quot;Read&quot;, &quot;Write&quot;],
+    permission_mode=&quot;acceptEdits&quot;
+)
+
+for message in query(
+    prompt=&quot;Create a file called hello.txt with &#39;Hello, World!&#39; in it&quot;,
+    options=options
+)
+    if message isa AssistantMessage
+        for block in message.content
+            if block isa TextBlock
+                println(block.text)
+            end
+        end
+    elseif message isa ResultMessage
+        println(&quot;Cost: \$$(round(message.cost_usd, digits=4))&quot;)
+    end
+end</code></pre><h2 id="Recent-Updates"><a class="docs-heading-anchor" href="#Recent-Updates">Recent Updates</a><a id="Recent-Updates-1"></a><a class="docs-heading-anchor-permalink" href="#Recent-Updates" title="Permalink"></a></h2><p>✅ <strong>CLI-Aware Demo Fixed</strong>: All example files now work correctly with proper keyword argument syntax.</p><h2 id="Available-Examples"><a class="docs-heading-anchor" href="#Available-Examples">Available Examples</a><a id="Available-Examples-1"></a><a class="docs-heading-anchor-permalink" href="#Available-Examples" title="Permalink"></a></h2><p>The repository includes several runnable examples:</p><pre><code class="language-bash hljs"># Basic usage with all features
+julia --project examples/quick_start.jl
+
+# JSON streaming and message processing demo  
+julia --project examples/streaming_demo.jl
+
+# Tool execution without CLI dependency
+julia --project examples/tool_execution_demo.jl
+
+# CLI-aware functionality with error handling
+julia --project examples/cli_aware_demo.jl</code></pre><h2 id="Next-Steps"><a class="docs-heading-anchor" href="#Next-Steps">Next Steps</a><a id="Next-Steps-1"></a><a class="docs-heading-anchor-permalink" href="#Next-Steps" title="Permalink"></a></h2><ul><li><a href="getting-started/">Getting Started Guide</a></li><li><a href="api/">API Reference</a></li><li><a href="examples/">Examples</a></li><li><a href="architecture/">Architecture Overview</a></li></ul></article><nav class="docs-footer"><a class="docs-footer-nextpage" href="getting-started/">Getting Started »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.12.0 on <span class="colophon-date" title="Sunday 15 June 2025 23:23">Sunday 15 June 2025</span>. Using Julia version 1.10.9.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>

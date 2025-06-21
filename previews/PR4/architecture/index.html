@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Architecture · ClaudeCodeSDK.jl</title><meta name="title" content="Architecture · ClaudeCodeSDK.jl"/><meta property="og:title" content="Architecture · ClaudeCodeSDK.jl"/><meta property="twitter:title" content="Architecture · ClaudeCodeSDK.jl"/><meta name="description" content="Documentation for ClaudeCodeSDK.jl."/><meta property="og:description" content="Documentation for ClaudeCodeSDK.jl."/><meta property="twitter:description" content="Documentation for ClaudeCodeSDK.jl."/><meta property="og:url" content="https://atelierarith.github.io/ClaudeCodeSDK.jl/architecture/"/><meta property="twitter:url" content="https://atelierarith.github.io/ClaudeCodeSDK.jl/architecture/"/><link rel="canonical" href="https://atelierarith.github.io/ClaudeCodeSDK.jl/architecture/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit"><a href="../">ClaudeCodeSDK.jl</a></span></div><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><a class="tocitem" href="../getting-started/">Getting Started</a></li><li><a class="tocitem" href="../api/">API Reference</a></li><li><a class="tocitem" href="../examples/">Examples</a></li><li class="is-active"><a class="tocitem" href>Architecture</a><ul class="internal"><li><a class="tocitem" href="#Overview"><span>Overview</span></a></li><li><a class="tocitem" href="#Core-Components"><span>Core Components</span></a></li><li><a class="tocitem" href="#Key-Design-Patterns"><span>Key Design Patterns</span></a></li><li><a class="tocitem" href="#Data-Flow"><span>Data Flow</span></a></li><li><a class="tocitem" href="#CLI-Integration"><span>CLI Integration</span></a></li><li><a class="tocitem" href="#Testing-Strategy"><span>Testing Strategy</span></a></li><li><a class="tocitem" href="#Future-Enhancements"><span>Future Enhancements</span></a></li><li><a class="tocitem" href="#Comparison-with-Python-SDK"><span>Comparison with Python SDK</span></a></li></ul></li><li><a class="tocitem" href="../errors/">Error Handling</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Architecture</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Architecture</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/AtelierArith/ClaudeCodeSDK.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/AtelierArith/ClaudeCodeSDK.jl/blob/main/docs/src/architecture.md#" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Architecture"><a class="docs-heading-anchor" href="#Architecture">Architecture</a><a id="Architecture-1"></a><a class="docs-heading-anchor-permalink" href="#Architecture" title="Permalink"></a></h1><p>This document describes the internal architecture of ClaudeCodeSDK.jl and how it mirrors the Python SDK while following Julia conventions.</p><h2 id="Overview"><a class="docs-heading-anchor" href="#Overview">Overview</a><a id="Overview-1"></a><a class="docs-heading-anchor-permalink" href="#Overview" title="Permalink"></a></h2><p>ClaudeCodeSDK.jl is a Julia port of the Claude Code SDK that wraps the Claude Code CLI. The architecture follows a modular design closely matching the Python SDK while leveraging Julia&#39;s type system and conventions.</p><h2 id="Core-Components"><a class="docs-heading-anchor" href="#Core-Components">Core Components</a><a id="Core-Components-1"></a><a class="docs-heading-anchor-permalink" href="#Core-Components" title="Permalink"></a></h2><h3 id="1.-Main-Module-(src/ClaudeCodeSDK.jl)"><a class="docs-heading-anchor" href="#1.-Main-Module-(src/ClaudeCodeSDK.jl)">1. Main Module (<code>src/ClaudeCodeSDK.jl</code>)</a><a id="1.-Main-Module-(src/ClaudeCodeSDK.jl)-1"></a><a class="docs-heading-anchor-permalink" href="#1.-Main-Module-(src/ClaudeCodeSDK.jl)" title="Permalink"></a></h3><p>The entry point containing:</p><ul><li><code>query()</code> function - Main public API</li><li><code>InternalClient</code> - Core orchestration logic</li><li>Module exports and public interface</li></ul><pre><code class="language-julia hljs"># Main query function
+function query(prompt::String; options::Union{ClaudeCodeOptions, Nothing}=nothing)
+    client = InternalClient()
+    return client.query(prompt, options)
+end</code></pre><h3 id="2.-Types-System-(src/types.jl)"><a class="docs-heading-anchor" href="#2.-Types-System-(src/types.jl)">2. Types System (<code>src/types.jl</code>)</a><a id="2.-Types-System-(src/types.jl)-1"></a><a class="docs-heading-anchor-permalink" href="#2.-Types-System-(src/types.jl)" title="Permalink"></a></h3><p>Comprehensive type definitions that mirror the Python SDK:</p><h4 id="Configuration-Types"><a class="docs-heading-anchor" href="#Configuration-Types">Configuration Types</a><a id="Configuration-Types-1"></a><a class="docs-heading-anchor-permalink" href="#Configuration-Types" title="Permalink"></a></h4><ul><li><code>ClaudeCodeOptions</code> - Complete configuration with 14 fields including MCP support</li><li><code>McpServerConfig</code> - MCP server configuration structure</li><li>Support for all Claude CLI options and parameters</li></ul><h4 id="Message-Types"><a class="docs-heading-anchor" href="#Message-Types">Message Types</a><a id="Message-Types-1"></a><a class="docs-heading-anchor-permalink" href="#Message-Types" title="Permalink"></a></h4><ul><li><code>Message</code> (abstract base type)</li><li><code>AssistantMessage</code> - Claude&#39;s responses</li><li><code>UserMessage</code> - User inputs  </li><li><code>SystemMessage</code> - System prompts</li><li><code>ResultMessage</code> - Operation results</li></ul><h4 id="Content-Block-Types"><a class="docs-heading-anchor" href="#Content-Block-Types">Content Block Types</a><a id="Content-Block-Types-1"></a><a class="docs-heading-anchor-permalink" href="#Content-Block-Types" title="Permalink"></a></h4><ul><li><code>ContentBlock</code> (abstract base type)</li><li><code>TextBlock</code> - Text content</li><li><code>ToolUseBlock</code> - Tool invocation requests</li><li><code>ToolResultBlock</code> - Tool execution results</li></ul><h4 id="Tool-Types"><a class="docs-heading-anchor" href="#Tool-Types">Tool Types</a><a id="Tool-Types-1"></a><a class="docs-heading-anchor-permalink" href="#Tool-Types" title="Permalink"></a></h4><ul><li><code>Tool</code> (abstract base type)</li><li><code>ReadTool</code> - File reading operations</li><li><code>WriteTool</code> - File writing operations</li><li><code>BashTool</code> - Command execution</li></ul><h3 id="3.-Transport-Layer-(src/internal/cli.jl)"><a class="docs-heading-anchor" href="#3.-Transport-Layer-(src/internal/cli.jl)">3. Transport Layer (<code>src/internal/cli.jl</code>)</a><a id="3.-Transport-Layer-(src/internal/cli.jl)-1"></a><a class="docs-heading-anchor-permalink" href="#3.-Transport-Layer-(src/internal/cli.jl)" title="Permalink"></a></h3><p>Handles communication with the Claude CLI:</p><pre><code class="language-julia hljs">abstract type CLITransport end
+
+struct SubprocessCLITransport &lt;: CLITransport
+    # CLI process management
+end
+
+function execute_query(transport::SubprocessCLITransport, prompt::String, options::ClaudeCodeOptions)
+    # Execute CLI command and capture output
+end</code></pre><p><strong>Key responsibilities:</strong></p><ul><li>CLI process spawning and management</li><li>Command-line argument construction</li><li>Output capture and parsing</li><li>Error handling and process cleanup</li></ul><h3 id="4.-Error-Handling-(src/errors.jl)"><a class="docs-heading-anchor" href="#4.-Error-Handling-(src/errors.jl)">4. Error Handling (<code>src/errors.jl</code>)</a><a id="4.-Error-Handling-(src/errors.jl)-1"></a><a class="docs-heading-anchor-permalink" href="#4.-Error-Handling-(src/errors.jl)" title="Permalink"></a></h3><p>Comprehensive exception hierarchy:</p><pre><code class="language-julia hljs">abstract type ClaudeSDKError &lt;: Exception end
+
+struct CLINotFoundError &lt;: ClaudeSDKError
+    message::String
+end
+
+struct CLIConnectionError &lt;: ClaudeSDKError
+    message::String
+end
+
+struct ProcessError &lt;: ClaudeSDKError
+    exit_code::Int
+    output::String
+end
+
+struct CLIJSONDecodeError &lt;: ClaudeSDKError
+    message::String
+    raw_output::String
+end</code></pre><h3 id="5.-Tool-System-(src/internal/tools.jl)"><a class="docs-heading-anchor" href="#5.-Tool-System-(src/internal/tools.jl)">5. Tool System (<code>src/internal/tools.jl</code>)</a><a id="5.-Tool-System-(src/internal/tools.jl)-1"></a><a class="docs-heading-anchor-permalink" href="#5.-Tool-System-(src/internal/tools.jl)" title="Permalink"></a></h3><p>Local tool execution capabilities:</p><pre><code class="language-julia hljs">function execute_tool(tool::ReadTool)
+    # Read file and return content
+end
+
+function execute_tool(tool::WriteTool)
+    # Write content to file
+end
+
+function execute_tool(tool::BashTool)
+    # Execute bash command
+end</code></pre><h3 id="6.-Utilities-(src/internal/utils.jl)"><a class="docs-heading-anchor" href="#6.-Utilities-(src/internal/utils.jl)">6. Utilities (<code>src/internal/utils.jl</code>)</a><a id="6.-Utilities-(src/internal/utils.jl)-1"></a><a class="docs-heading-anchor-permalink" href="#6.-Utilities-(src/internal/utils.jl)" title="Permalink"></a></h3><p>Helper functions for:</p><ul><li>JSON serialization/deserialization</li><li>CLI argument formatting</li><li>Response parsing</li><li>Type conversions</li></ul><h2 id="Key-Design-Patterns"><a class="docs-heading-anchor" href="#Key-Design-Patterns">Key Design Patterns</a><a id="Key-Design-Patterns-1"></a><a class="docs-heading-anchor-permalink" href="#Key-Design-Patterns" title="Permalink"></a></h2><h3 id="Vector-based-Message-Return"><a class="docs-heading-anchor" href="#Vector-based-Message-Return">Vector-based Message Return</a><a id="Vector-based-Message-Return-1"></a><a class="docs-heading-anchor-permalink" href="#Vector-based-Message-Return" title="Permalink"></a></h3><p>Unlike the Python SDK&#39;s async streaming approach, the Julia SDK returns a <code>Vector{Message}</code>:</p><pre><code class="language-julia hljs"># Python SDK (async streaming)
+async for message in query(&quot;hello&quot;):
+    print(message)
+
+# Julia SDK (vector-based)
+for message in query(&quot;hello&quot;)
+    println(message)
+end</code></pre><p><strong>Benefits:</strong></p><ul><li>Simpler iteration pattern</li><li>Better integration with Julia&#39;s ecosystem</li><li>Easier debugging and inspection</li><li>Natural fit for Julia&#39;s array-oriented design</li></ul><h3 id="Type-Safety"><a class="docs-heading-anchor" href="#Type-Safety">Type Safety</a><a id="Type-Safety-1"></a><a class="docs-heading-anchor-permalink" href="#Type-Safety" title="Permalink"></a></h3><p>Full Julia type annotations with strict type checking:</p><pre><code class="language-julia hljs">struct ClaudeCodeOptions
+    allowed_tools::Vector{String}
+    max_thinking_tokens::Int
+    system_prompt::Union{String, Nothing}
+    append_system_prompt::Union{String, Nothing}
+    mcp_tools::Vector{String}
+    mcp_servers::Dict{String, McpServerConfig}
+    permission_mode::Union{String, Nothing}
+    continue_conversation::Bool
+    resume::Union{String, Nothing}
+    max_turns::Union{Int, Nothing}
+    disallowed_tools::Vector{String}
+    model::Union{String, Nothing}
+    permission_prompt_tool_name::Union{String, Nothing}
+    cwd::Union{String, Nothing}
+end</code></pre><h3 id="Transport-Abstraction"><a class="docs-heading-anchor" href="#Transport-Abstraction">Transport Abstraction</a><a id="Transport-Abstraction-1"></a><a class="docs-heading-anchor-permalink" href="#Transport-Abstraction" title="Permalink"></a></h3><p>Clean separation between CLI communication and SDK logic:</p><pre><code class="language-julia hljs">abstract type CLITransport end
+
+# Allows for future implementations (HTTP, WebSocket, etc.)
+struct SubprocessCLITransport &lt;: CLITransport end
+struct HTTPTransport &lt;: CLITransport end  # Future possibility</code></pre><h3 id="Message-Parsing-Strategy"><a class="docs-heading-anchor" href="#Message-Parsing-Strategy">Message Parsing Strategy</a><a id="Message-Parsing-Strategy-1"></a><a class="docs-heading-anchor-permalink" href="#Message-Parsing-Strategy" title="Permalink"></a></h3><p>The SDK handles CLI text output by:</p><ol><li><strong>CLI Execution</strong>: Run <code>claude --print</code> for text output</li><li><strong>Response Wrapping</strong>: Wrap text in <code>AssistantMessage</code> with <code>TextBlock</code></li><li><strong>Type Construction</strong>: Create proper message hierarchy</li><li><strong>Vector Return</strong>: Return as <code>Vector{Message}</code> for iteration</li></ol><h2 id="Data-Flow"><a class="docs-heading-anchor" href="#Data-Flow">Data Flow</a><a id="Data-Flow-1"></a><a class="docs-heading-anchor-permalink" href="#Data-Flow" title="Permalink"></a></h2><pre><code class="nohighlight hljs">User Query
+    ↓
+query() function
+    ↓
+InternalClient.query()
+    ↓
+SubprocessCLITransport.execute_query()
+    ↓
+CLI Process (`claude --print`)
+    ↓
+Raw Text Output
+    ↓
+Response Parsing
+    ↓
+Message Construction
+    ↓
+Vector{Message} Return
+    ↓
+User Iteration</code></pre><h2 id="CLI-Integration"><a class="docs-heading-anchor" href="#CLI-Integration">CLI Integration</a><a id="CLI-Integration-1"></a><a class="docs-heading-anchor-permalink" href="#CLI-Integration" title="Permalink"></a></h2><h3 id="Command-Construction"><a class="docs-heading-anchor" href="#Command-Construction">Command Construction</a><a id="Command-Construction-1"></a><a class="docs-heading-anchor-permalink" href="#Command-Construction" title="Permalink"></a></h3><p>Options are converted to CLI arguments:</p><pre><code class="language-julia hljs">function build_cli_args(options::ClaudeCodeOptions)
+    args = String[]
+    
+    # Add --print for text output
+    push!(args, &quot;--print&quot;)
+    
+    # Add configured options
+    if options.system_prompt !== nothing
+        push!(args, &quot;--system-prompt&quot;, options.system_prompt)
+    end
+    
+    if options.max_turns !== nothing
+        push!(args, &quot;--max-turns&quot;, string(options.max_turns))
+    end
+    
+    if !isempty(options.allowed_tools)
+        for tool in options.allowed_tools
+            push!(args, &quot;--allowed-tools&quot;, tool)
+        end
+    end
+    
+    # ... handle all other options
+    
+    return args
+end</code></pre><h3 id="Process-Management"><a class="docs-heading-anchor" href="#Process-Management">Process Management</a><a id="Process-Management-1"></a><a class="docs-heading-anchor-permalink" href="#Process-Management" title="Permalink"></a></h3><p>Safe process handling with proper cleanup:</p><pre><code class="language-julia hljs">function execute_cli_command(args::Vector{String}, input::String)
+    try
+        process = open(`claude $args`, &quot;r+&quot;)
+        write(process, input)
+        close(process.in)
+        output = read(process, String)
+        wait(process)
+        return output
+    catch e
+        # Handle process errors
+        throw(ProcessError(e.exitcode, e.message))
+    end
+end</code></pre><h2 id="Testing-Strategy"><a class="docs-heading-anchor" href="#Testing-Strategy">Testing Strategy</a><a id="Testing-Strategy-1"></a><a class="docs-heading-anchor-permalink" href="#Testing-Strategy" title="Permalink"></a></h2><h3 id="Multi-tier-Testing-Approach"><a class="docs-heading-anchor" href="#Multi-tier-Testing-Approach">Multi-tier Testing Approach</a><a id="Multi-tier-Testing-Approach-1"></a><a class="docs-heading-anchor-permalink" href="#Multi-tier-Testing-Approach" title="Permalink"></a></h3><ol><li><p><strong>Type Construction Tests</strong> (always run)</p><ul><li>Test SDK components without CLI dependency</li><li>Validate type system and constructors</li><li>Unit test utilities and helpers</li></ul></li><li><p><strong>CLI-dependent Tests</strong> (conditional)</p><ul><li>Only run if <code>claude</code> CLI is available</li><li>Test actual CLI communication</li><li>Integration testing with real Claude</li></ul></li><li><p><strong>Tool Tests</strong> (local execution)</p><ul><li>Test tool system without CLI</li><li>Validate tool execution logic</li><li>File system operations</li></ul></li><li><p><strong>Error Handling Tests</strong></p><ul><li>Test exception hierarchy</li><li>Validate error propagation</li><li>CLI failure scenarios</li></ul></li></ol><h3 id="Test-Detection-Pattern"><a class="docs-heading-anchor" href="#Test-Detection-Pattern">Test Detection Pattern</a><a id="Test-Detection-Pattern-1"></a><a class="docs-heading-anchor-permalink" href="#Test-Detection-Pattern" title="Permalink"></a></h3><pre><code class="language-julia hljs">function is_cli_available()
+    try
+        run(`claude --version`)
+        return true
+    catch
+        return false
+    end
+end
+
+@testset &quot;CLI Tests&quot; begin
+    if is_cli_available()
+        # Run CLI-dependent tests
+    else
+        @test_skip &quot;CLI not available&quot;
+    end
+end</code></pre><h2 id="Future-Enhancements"><a class="docs-heading-anchor" href="#Future-Enhancements">Future Enhancements</a><a id="Future-Enhancements-1"></a><a class="docs-heading-anchor-permalink" href="#Future-Enhancements" title="Permalink"></a></h2><h3 id="Planned-Improvements"><a class="docs-heading-anchor" href="#Planned-Improvements">Planned Improvements</a><a id="Planned-Improvements-1"></a><a class="docs-heading-anchor-permalink" href="#Planned-Improvements" title="Permalink"></a></h3><ol><li><p><strong>Streaming Support</strong></p><ul><li>Implement streaming JSON response parsing</li><li>Support real-time output display</li><li>Maintain backward compatibility</li></ul></li><li><p><strong>Enhanced Tool Integration</strong></p><ul><li>Better CLI tool interface</li><li>Tool result parsing improvements</li><li>Interactive tool approval</li></ul></li><li><p><strong>Performance Optimizations</strong></p><ul><li>CLI process reuse</li><li>Response caching</li><li>Parallel query support</li></ul></li><li><p><strong>Advanced Features</strong></p><ul><li>Memory persistence</li><li>Conversation threading</li><li>Plugin system</li></ul></li></ol><h3 id="Extensibility-Points"><a class="docs-heading-anchor" href="#Extensibility-Points">Extensibility Points</a><a id="Extensibility-Points-1"></a><a class="docs-heading-anchor-permalink" href="#Extensibility-Points" title="Permalink"></a></h3><p>The architecture supports future extensions:</p><ul><li><strong>New Transport Types</strong>: HTTP, WebSocket, gRPC</li><li><strong>Additional Tools</strong>: Custom tool definitions</li><li><strong>Message Formats</strong>: JSON, XML, custom protocols</li><li><strong>Authentication</strong>: API keys, OAuth, custom auth</li></ul><h2 id="Comparison-with-Python-SDK"><a class="docs-heading-anchor" href="#Comparison-with-Python-SDK">Comparison with Python SDK</a><a id="Comparison-with-Python-SDK-1"></a><a class="docs-heading-anchor-permalink" href="#Comparison-with-Python-SDK" title="Permalink"></a></h2><table><tr><th style="text-align: right">Aspect</th><th style="text-align: right">Python SDK</th><th style="text-align: right">Julia SDK</th></tr><tr><td style="text-align: right"><strong>Return Type</strong></td><td style="text-align: right"><code>AsyncIterator[Message]</code></td><td style="text-align: right"><code>Vector{Message}</code></td></tr><tr><td style="text-align: right"><strong>Execution</strong></td><td style="text-align: right">Async/await</td><td style="text-align: right">Synchronous</td></tr><tr><td style="text-align: right"><strong>Type System</strong></td><td style="text-align: right">Dataclasses + type hints</td><td style="text-align: right">Native Julia structs</td></tr><tr><td style="text-align: right"><strong>Error Handling</strong></td><td style="text-align: right">Exception hierarchy</td><td style="text-align: right">Exception hierarchy</td></tr><tr><td style="text-align: right"><strong>CLI Communication</strong></td><td style="text-align: right">Subprocess async</td><td style="text-align: right">Subprocess sync</td></tr><tr><td style="text-align: right"><strong>Tool System</strong></td><td style="text-align: right">Integrated</td><td style="text-align: right">Local + CLI integration</td></tr><tr><td style="text-align: right"><strong>Dependencies</strong></td><td style="text-align: right">aiofiles, subprocess</td><td style="text-align: right">JSON.jl, Base modules</td></tr></table><p>The Julia implementation maintains API compatibility while leveraging Julia&#39;s strengths in type safety, performance, and ecosystem integration.</p></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../examples/">« Examples</a><a class="docs-footer-nextpage" href="../errors/">Error Handling »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.12.0 on <span class="colophon-date" title="Sunday 15 June 2025 12:02">Sunday 15 June 2025</span>. Using Julia version 1.10.9.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
